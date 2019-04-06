@@ -179,7 +179,7 @@ bool RH_RF69::init()
     uint8_t syncwords[] = { 0x2d, 0xd4 };
     setSyncWords(syncwords, sizeof(syncwords)); // Same as RF22's
     // Reasonably fast and reliable default speed and modulation
-    setModemConfig(GFSK_Rb250Fd250);
+     setModemConfig(GFSK_Rb250Fd250);
 
     // 3 would be sufficient, but this is the same as RF22's
     setPreambleLength(4);
@@ -349,6 +349,13 @@ bool RH_RF69::sleep()
 	_mode = RHModeSleep;
     }
     return true;
+}
+
+void RH_RF69::setEncoding(const Encoding encoding){
+    auto current = spiRead(RH_RF69_REG_37_PACKETCONFIG1);
+    current &= 0x9F;
+    current |= static_cast<uint8_t>(encoding) << 5;
+    spiWrite(RH_RF69_REG_37_PACKETCONFIG1, current);
 }
 
 void RH_RF69::setModeRx()

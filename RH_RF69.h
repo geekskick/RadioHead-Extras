@@ -923,6 +923,12 @@ public:
     /// \return The integer device type
     uint16_t deviceType() {return _deviceType;};
 
+    enum class Encoding{ None, Manchester, Whitening };
+
+    /// Sets the data encoding type
+    /// \param[in] encoding The new encoding type
+    void setEncoding(const Encoding encoding);
+
 protected:
     /// This is a low level function to handle the interrupts for one instance of RF69.
     /// Called automatically by isr*()
